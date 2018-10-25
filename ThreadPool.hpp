@@ -10,11 +10,13 @@
 
 #include <mutex>
 #include <condition_variable>
-#include <vector>
 #include <thread>
-#include <queue>
 #include <future>
-#include <type_traits>
+#include <functional>
+#include <memory>
+#include <vector>
+#include <queue>
+
 
 /**
 * This class represents a generic pool of threads that are able to perform user-defined tasks.
