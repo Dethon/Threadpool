@@ -46,10 +46,10 @@ public:
 	ThreadPool(const ThreadPool&) = delete;
 	ThreadPool& operator=(const ThreadPool&) = delete;
 
-	ThreadPool(size_t count) :
-		m_stopflag{ false }, m_stopflag_soft{ false }, m_numthreads{ count }
+	ThreadPool(size_t numthreads) :
+		m_stopflag{ false }, m_stopflag_soft{ false }, m_numthreads{ numthreads }
 	{
-		init(count);
+		init(numthreads);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public:
 	* \param count The desired number of threads
 	* \return true if the threadpool was initialized correctly, false if it still needs to be stopped.
 	*/
-	bool init(size_t count)
+	bool init(size_t numthreads)
 	{
 		if (m_threads.size() != 0)
 		{
@@ -74,9 +74,9 @@ public:
 
 		m_stopflag = false;
 		m_stopflag_soft = false;
-		m_numthreads = count;
-		m_threads.reserve(count);
-		for (auto i = 0u; i < count; i++)
+		m_numthreads = numthreads;
+		m_threads.reserve(numthreads);
+		for (auto i = 0u; i < numthreads; i++)
 		{
 			m_threads.emplace_back(&ThreadPool::threadFunction, this);
 		}
@@ -140,7 +140,7 @@ public:
 private:
 	void threadFunction()
 	{
-		while (true)
+		for (;;)
 		{
 			std::function<void()> task;
 			{
