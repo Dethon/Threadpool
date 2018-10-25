@@ -48,6 +48,10 @@ public:
 	ThreadPool(const ThreadPool&) = delete;
 	ThreadPool& operator=(const ThreadPool&) = delete;
 
+	/**
+	* Creates and initialices a ThreadPool with the specified number of threads.
+	* \param count The desired number of threads
+	*/
 	ThreadPool(size_t numthreads) :
 		m_stopflag{ false }, m_stopflag_soft{ false }, m_numthreads{ numthreads }
 	{
@@ -134,6 +138,10 @@ public:
 		return future;
 	}
 
+	/**
+	* Retrieves the number of threads.
+	* \return The number of threads
+	*/
 	size_t numThreads()
 	{
 		return m_numthreads;
