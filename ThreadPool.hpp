@@ -142,7 +142,7 @@ public:
 	* Retrieves the number of threads.
 	* \return The number of threads
 	*/
-	size_t numThreads()
+	size_t numThreads() const
 	{
 		return m_numthreads;
 	}
