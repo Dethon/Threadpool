@@ -14,7 +14,7 @@ int task(int a)
 
 int main()
 {
-	auto&& pool{ ThreadPool{std::thread::hardware_concurrency()} };
+	auto pool = ThreadPool{ std::thread::hardware_concurrency() };
 	for (auto i = 0u; i < 20u; i++)
 	{
 		pool.enqueue(&task, i);

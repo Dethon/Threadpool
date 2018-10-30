@@ -96,7 +96,7 @@ public:
 	void stop()
 	{
 		{
-			auto&& guard{ std::lock_guard{m_mutex} };
+			auto guard = std::lock_guard{ m_mutex };
 			m_stopflag = true;
 		}
 		m_condition.notify_all();
@@ -110,7 +110,7 @@ public:
 	void softStop()
 	{
 		{
-			auto&& guard{ std::lock_guard{m_mutex} };
+			auto guard = std::lock_guard{ m_mutex };
 			m_stopflag_soft = true;
 		}
 		m_condition.notify_all();
@@ -128,10 +128,10 @@ public:
 	{
 		using pkgdTask = std::packaged_task<decltype(t(args...))()>;
 
-		auto task{ std::make_shared<pkgdTask>(std::bind(std::forward<T>(t), std::forward<Args>(args)...)) };
-		auto future{ task->get_future() };
+		auto task = std::make_shared<pkgdTask>(std::bind(std::forward<T>(t), std::forward<Args>(args)...));
+		auto future = task->get_future();
 		{
-			auto&& guard{ std::lock_guard{m_mutex} };
+			auto guard = std::lock_guard{ m_mutex };
 			m_queue.emplace([tsk = std::move(task)]() { (*tsk)(); });
 		}
 		m_condition.notify_one();
@@ -154,7 +154,7 @@ private:
 		{
 			std::function<void()> task;
 			{
-				auto lock{ std::unique_lock{ m_mutex } };
+				auto lock = std::unique_lock{ m_mutex };
 				m_condition.wait(lock, [this] { return m_stopflag_soft || m_stopflag || !m_queue.empty(); });
 				if ((m_stopflag_soft && m_queue.empty()) || m_stopflag)
 				{
