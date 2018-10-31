@@ -64,7 +64,7 @@ public:
 	ThreadPool(size_t numthreads) :
 		m_stopflag{ false }, m_stopflag_soft{ false }, m_numthreads{ numthreads }
 	{
-		init(numthreads);
+		start(numthreads);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public:
 	* \param count The desired number of threads
 	* \return true if the threadpool was initialized correctly, false if it still needs to be stopped.
 	*/
-	bool init(size_t numthreads)
+	bool start(size_t numthreads)
 	{
 		if (m_threads.size() != 0)
 		{

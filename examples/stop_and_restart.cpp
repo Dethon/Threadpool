@@ -23,11 +23,11 @@ int main()
 	std::this_thread::sleep_for(500ms);
 	pool.stop();
 	std::this_thread::sleep_for(5s);
-	pool.init(1u);
+	pool.start(1u);
 	std::this_thread::sleep_for(5s);
 	pool.stop();
 	std::this_thread::sleep_for(5s);
-	pool.init(std::thread::hardware_concurrency());	
+	pool.start(std::thread::hardware_concurrency());	
 	
 	// ThreadPool's destructor uses softStop, so all queued tasks are executed before exiting the program.
 	return 0;
