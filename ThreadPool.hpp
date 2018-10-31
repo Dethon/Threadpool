@@ -52,6 +52,15 @@ public:
 	* Creates and initialices a ThreadPool with the specified number of threads.
 	* \param count The desired number of threads
 	*/
+	ThreadPool() :
+		m_stopflag{ false }, m_stopflag_soft{ false }, m_numthreads{ 0 }
+	{
+	}
+
+	/**
+	* Creates and initialices a ThreadPool with the specified number of threads.
+	* \param count The desired number of threads
+	*/
 	ThreadPool(size_t numthreads) :
 		m_stopflag{ false }, m_stopflag_soft{ false }, m_numthreads{ numthreads }
 	{
