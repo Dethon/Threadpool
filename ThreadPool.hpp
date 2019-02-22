@@ -49,8 +49,7 @@ public:
 	ThreadPool& operator=(const ThreadPool&) = delete;
 
 	/**
-	* Creates and initialices a ThreadPool with the specified number of threads.
-	* \param count The desired number of threads
+	* Creates and initialices a ThreadPool with 0 threads.
 	*/
 	ThreadPool() :
 		m_stopflag{ false }, m_stopflag_soft{ false }, m_numthreads{ 0 }
@@ -99,7 +98,7 @@ public:
 	}
 
 	/**
-	* Stops the threadpool in an orderly manner and removes all threads so it can be resized with a call to init().
+	* Stops the threadpool in an orderly manner and removes all threads so it can be resized with a call to start().
 	* Bear in mind that tasks can be left enqueued.
 	*/
 	void stop()
@@ -113,7 +112,7 @@ public:
 	}
 
 	/**
-	* Stops the threadpool in an orderly manner and removes all threads so it can be resized with a call to init().
+	* Stops the threadpool in an orderly manner and removes all threads so it can be resized with a call to start().
 	* All tasks in the queue are executed before stopping.
 	*/
 	void softStop()
