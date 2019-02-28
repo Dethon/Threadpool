@@ -160,17 +160,16 @@ private:
 	{
 		for (;;)
 		{
-			std::function<void()> task;
+			auto lock = std::unique_lock{ m_mutex };
+			m_condition.wait(lock, [this] { return !m_queue.empty() || m_stopflag_soft || m_stopflag; });
+			if ((m_stopflag_soft && m_queue.empty()) || m_stopflag)
 			{
-				auto lock = std::unique_lock{ m_mutex };
-				m_condition.wait(lock, [this] { return m_stopflag_soft || m_stopflag || !m_queue.empty(); });
-				if ((m_stopflag_soft && m_queue.empty()) || m_stopflag)
-				{
-					return;
-				}
-				task = m_queue.front();
-				m_queue.pop();
+				return;
 			}
+
+			auto task = std::move(m_queue.front());
+			m_queue.pop();
+			lock.unlock();
 			task();
 		}
 	}
